@@ -207,7 +207,7 @@ namespace MaichartConverter
 
                     foreach (string bgaFile in bgaFiles)
                     {
-                        string musicID = Path.GetFileName(bgaFile).Substring(5, 6).Substring(2, 4);
+                        string musicID = Path.GetFileNameWithoutExtension(bgaFile).Substring(2, 4);
                         if (!bgaMap.Keys.Contains(Program.CompensateZero(musicID)))
                             bgaMap.Add(Program.CompensateZero(musicID), bgaFile);
                         bgaMap.Add("01" + musicID, bgaFile);
