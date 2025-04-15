@@ -210,15 +210,9 @@ namespace MaichartConverter
 
                     foreach (string bgaFile in bgaFiles)
                     {
-                        string musicID = bgaFile.Substring(bgaLocation.Length).Substring(0, 6).Substring(2, 4);
+                        string musicID = Path.GetFileNameWithoutExtension(bgaFile).Substring(2, 4);
                         if (!bgaMap.Keys.Contains(musicID))
                             bgaMap.Add(musicID, bgaFile);
-                        // if (!bgaMap.Keys.Contains(Program.CompensateZero(musicID)))
-                        //     bgaMap.Add(Program.CompensateZero(musicID), bgaFile);
-                        // bgaMap.Add("01" + musicID, bgaFile);
-                        // bgaMap.Add("10" + musicID, bgaFile);
-                        // bgaMap.Add("11" + musicID, bgaFile);
-                        // bgaMap.Add("12" + musicID, bgaFile);
                     }
                 }
                 else if (exportBGA)

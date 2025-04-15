@@ -24,7 +24,7 @@
 
 - `-m | --music <path>`: Path to MP3 files. Expected naming scheme is `musicXXXXXX.mp3`.
 - `-c | --cover <path>`: Path to track pictures. Expected naming scheme is `UI_Jacket_XXXXXX.png`.
-- `-v | --video <path>`: Path to background videos. Expected naming scheme is `musicXXXXXX.mp4`
+- `-v | --video <path>`: Path to background videos. Expected naming scheme is `XXXXXX.mp4`
 - `-g | --genre <number 0-6> `: Preferred categorizing scheme.
   `0 = Genre, 1 = Level, 2 = Cabinet, 3 = Composer, 4 = BPM, 5 - SD/DX Chart, 6 = No subfolders`
 - `-d | --decimal`: Option to force levels to be displayed in decimals (e.g. `14+ => 14.7`).
