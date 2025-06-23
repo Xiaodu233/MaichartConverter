@@ -126,7 +126,7 @@ namespace MaichartConverter
         /// <exception cref="FileNotFoundException">Raised when the file is not found</exception>
         public override int Run(string[] remainingArguments)
         {
-            try
+            // try
             {
                 // Console.ReadKey();
                 bool exportBGA = true;
@@ -455,15 +455,15 @@ namespace MaichartConverter
                 if (LogTracksInJson) Program.LogTracksInJson(outputLocation);
                 return Success;
             }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Program cannot proceed because of following error returned: \n{0}", ex.GetType());
-                Console.Error.WriteLine(ex.Message);
-                Console.Error.WriteLine(ex.StackTrace);
-                Console.ReadKey();
-                // throw ex; // For debug use
-                return Failed;
-            }
+            // catch (Exception ex)
+            // {
+            //     Console.WriteLine("Program cannot proceed because of following error returned: \n{0}", ex.GetType());
+            //     Console.Error.WriteLine(ex.Message);
+            //     Console.Error.WriteLine(ex.StackTrace);
+            //     Console.ReadKey();
+            //     // throw ex; // For debug use
+            //     return Failed;
+            // }
         }
     }
 }
