@@ -238,6 +238,10 @@ namespace MaichartConverter
                         TrackInformation trackInfo = new XmlInformation($"{track}/");
                         Console.WriteLine("There is Music.xml in {0}", track);
                         string shortID = Program.CompensateZero(trackInfo.TrackID).Substring(2);
+                        if (trackInfo.TrackID is "500429")
+                        {
+                            Console.WriteLine();
+                        }
                         Console.WriteLine($"Name: {trackInfo.TrackName}");
                         Console.WriteLine($"ID: {trackInfo.TrackID}");
                         Console.WriteLine($"Genre: {trackInfo.TrackGenre}");

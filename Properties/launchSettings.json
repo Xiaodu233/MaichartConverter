@@ -42,7 +42,7 @@
     },
     "Specific chart": {
       "commandName": "Project",
-      "commandLineArgs": "CompileMa2ID\r\n-p \"/Users/Neskol/MaiAnalysis/A000/\"\r\n-i \"799\"\r\n-d \"4\""
+      "commandLineArgs": "CompileMa2ID\r\n-p \"/Users/Neskol/MaiAnalysis/A000/\"\r\n-i \"500429\"\r\n-d \"0\""
     },
     "H264-D": {
       "commandName": "Project",
