@@ -457,7 +457,7 @@ namespace MaichartConverter
 
                 Program.Log(outputLocation);
                 if (LogTracksInJson) Program.LogTracksInJson(outputLocation);
-                if (CompileCollectionFiles) Program.CompileSortingCollection(outputLocation);
+                if (CompileCollectionFiles) Program.CompileSortingCollection($"{outputLocation}/collections");
                 return Success;
             }
             // catch (Exception ex)

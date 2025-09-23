@@ -57,8 +57,8 @@ namespace MaichartConverter
 
         public class TrackGroup
         {
-            public string name {get; set;}
-            public string[] levelIds {get; set;}
+            public string? name {get; set;}
+            public string[]? levelIds {get; set;}
 
             protected internal TrackGroup()
             {
@@ -244,7 +244,7 @@ namespace MaichartConverter
         public static void CompileSortingCollection(string outputLocation)
         {
 
-            StreamWriter sw = new(outputLocation + "manifest.json", false);
+
 
             JsonSerializerOptions? JsonOptions = new()
             {
@@ -254,49 +254,38 @@ namespace MaichartConverter
             string[] trackVersions = CompiledTrackInformationList.Select(info => info.TrackVersion).Distinct().ToArray();
             string[] trackGenres = CompiledTrackInformationList.Select(info => info.TrackGenre).Distinct().ToArray();
             string[] trackSDDXSuffixes = CompiledTrackInformationList.Select(info => info.StandardDeluxePrefix).Distinct().ToArray();
-            List<TrackGroup> versionGroup = [];
-            List<TrackGroup> genreGroup = [];
-            List<TrackGroup> sdDXGroup = [];
 
-            versionGroup.AddRange(trackVersions.Select(trackVersion => new TrackGroup
+            List<TrackGroup> trackGroups = [];
+
+            trackGroups.AddRange(trackVersions.Select(trackVersion => new TrackGroup
             {
                 name = trackVersion,
                 levelIds = (from track in CompiledTrackInformationList
                     where track.TrackVersion.Equals(trackVersion)
                     select track.TrackID).ToArray()
             }));
-            genreGroup.AddRange(trackGenres.Select(trackGenre => new TrackGroup
+            trackGroups.AddRange(trackGenres.Select(trackGenre => new TrackGroup
             {
                 name = trackGenre,
                 levelIds = (from track in CompiledTrackInformationList
                     where track.TrackGenre.Equals(trackGenre)
                     select track.TrackID).ToArray()
             }));
-            sdDXGroup.AddRange(trackSDDXSuffixes.Select(suffix => new TrackGroup
+            trackGroups.AddRange(trackSDDXSuffixes.Select(suffix => new TrackGroup
             {
-                name = suffix,
+                name = $"{suffix} Chart",
                 levelIds = (from track in CompiledTrackInformationList
                     where track.StandardDeluxeSuffix.Equals(suffix)
                     select track.TrackID).ToArray()
             }));
 
-            StringBuilder builder = new();
-
-            foreach (TrackGroup version in versionGroup)
+            foreach (TrackGroup group in trackGroups)
             {
-                builder.AppendLine($"{JsonSerializer.Serialize(version, JsonOptions)},");
+                Directory.CreateDirectory($"{outputLocation}/{group.name}");
+                StreamWriter sw = new($"{outputLocation}/{group.name}/anifest.json", false);
+                sw.WriteLine(JsonSerializer.Serialize(group, JsonOptions));
+                sw.Close();
             }
-            foreach (TrackGroup genre in genreGroup)
-            {
-                builder.AppendLine($"{JsonSerializer.Serialize(genre, JsonOptions)},");
-            }
-            foreach (TrackGroup suffix in sdDXGroup)
-            {
-                builder.AppendLine($"{JsonSerializer.Serialize(suffix, JsonOptions)},");
-            }
-
-            sw.WriteLine(builder.ToString());
-            sw.Close();
         }
 
         /// <summary>
