@@ -16,6 +16,7 @@ namespace MaichartConverter
         public bool MusicIDFolderName { get; set; }
         public bool LogTracksInJson { get; set; }
         public bool ExportAsZipFile { get; set; }
+        public bool CompileCollectionFiles { get; set; }
 
         /// <summary>
         ///     Source file path
@@ -116,6 +117,7 @@ namespace MaichartConverter
             HasOption("n|number:", "Use musicID as folder name instead of sort name", _ => MusicIDFolderName = true);
             HasOption("j|json:", "Create a log file of compiled tracks in JSON", _ => LogTracksInJson = true);
             HasOption("z|zip:", "Export Tracks as Zip Files", _ => ExportAsZipFile = true);
+            HasOption("k|collection","Compile a soring file like manifest.json for collection indexing",_=>CompileCollectionFiles = true);
         }
 
         /// <summary>
@@ -237,12 +239,9 @@ namespace MaichartConverter
                     else if (File.Exists($"{track}/Music.xml"))
                     {
                         TrackInformation trackInfo = new XmlInformation($"{track}/");
+                        Program.CompiledTrackInformationList.Add(trackInfo);
                         Console.WriteLine("There is Music.xml in {0}", track);
                         string shortID = Program.CompensateZero(trackInfo.TrackID).Substring(2);
-                        if (trackInfo.TrackID is "500429")
-                        {
-                            Console.WriteLine();
-                        }
                         Console.WriteLine($"Name: {trackInfo.TrackName}");
                         Console.WriteLine($"ID: {trackInfo.TrackID}");
                         Console.WriteLine($"Genre: {trackInfo.TrackGenre}");
@@ -458,6 +457,7 @@ namespace MaichartConverter
 
                 Program.Log(outputLocation);
                 if (LogTracksInJson) Program.LogTracksInJson(outputLocation);
+                if (CompileCollectionFiles) Program.CompileSortingCollection(outputLocation);
                 return Success;
             }
             // catch (Exception ex)
