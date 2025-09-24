@@ -1,6 +1,6 @@
-using ManyConsole;
-using MaiLib;
 using System.IO.Compression;
+using MaiLib;
+using ManyConsole;
 
 namespace MaichartConverter
 {
@@ -83,9 +83,7 @@ namespace MaichartConverter
         {
             CategorizeMethods = "";
             for (int i = 0; i < Program.TrackCategorizeMethodSet.Length; i++)
-            {
                 CategorizeMethods += $"[{i}]{Program.TrackCategorizeMethodSet[i]}\n";
-            }
 
             StrictDecimal = false;
             IsCommand("CompileDatabase", "Compile whole ma2 database to format assigned");
@@ -117,7 +115,8 @@ namespace MaichartConverter
             HasOption("n|number:", "Use musicID as folder name instead of sort name", _ => MusicIDFolderName = true);
             HasOption("j|json:", "Create a log file of compiled tracks in JSON", _ => LogTracksInJson = true);
             HasOption("z|zip:", "Export Tracks as Zip Files", _ => ExportAsZipFile = true);
-            HasOption("k|collection","Compile a soring file like manifest.json for collection indexing",_=>CompileCollectionFiles = true);
+            HasOption("k|collection", "Compile a soring file like manifest.json for collection indexing",
+                _ => CompileCollectionFiles = true);
         }
 
         /// <summary>
@@ -141,10 +140,7 @@ namespace MaichartConverter
                 //     Console.WriteLine("Step 1: Provide A000 Location");
                 //     a000Location = Console.ReadLine() ?? "";
                 // }
-                if (a000Location is null or "")
-                {
-                    a000Location = Program.DefaultPaths[0];
-                }
+                if (a000Location is null or "") a000Location = Program.DefaultPaths[0];
 
                 string musicLocation = $"{a000Location}/music/";
                 string? audioLocation = BGMLocation;
@@ -154,46 +150,26 @@ namespace MaichartConverter
                 //     audioLocation = Console.ReadLine() ?? "";
                 // }
                 if (BGMLocation == null)
-                {
                     exportAudio = false;
-                }
-                else if (BGMLocation.Equals(""))
-                {
-                    audioLocation = Program.DefaultPaths[1];
-                }
+                else if (BGMLocation.Equals("")) audioLocation = Program.DefaultPaths[1];
 
                 string? imageLocation = ImageLocation;
                 if (ImageLocation == null)
-                {
                     exportImage = false;
-                }
-                else if (ImageLocation.Equals(""))
-                {
-                    imageLocation = Program.DefaultPaths[2];
-                }
+                else if (ImageLocation.Equals("")) imageLocation = Program.DefaultPaths[2];
 
                 string? bgaLocation = VideoLocation;
                 if (VideoLocation == null)
-                {
                     exportBGA = false;
-                }
-                else if (VideoLocation.Equals(""))
-                {
-                    bgaLocation = Program.DefaultPaths[3];
-                }
+                else if (VideoLocation.Equals("")) bgaLocation = Program.DefaultPaths[3];
 
                 string outputLocation = Destination ?? throw new NullReferenceException("Destination not specified");
-                if (outputLocation.Equals(""))
-                {
-                    outputLocation = Program.DefaultPaths[4];
-                }
+                if (outputLocation.Equals("")) outputLocation = Program.DefaultPaths[4];
 
                 try
                 {
                     if (0 <= CategorizeIndex && CategorizeIndex < Program.TrackCategorizeMethodSet.Length)
-                    {
                         Program.GlobalTrackCategorizeMethod = Program.TrackCategorizeMethodSet[CategorizeIndex];
-                    }
                 }
                 catch (Exception e)
                 {
@@ -219,7 +195,9 @@ namespace MaichartConverter
                     }
                 }
                 else if (exportBGA)
+                {
                     throw new NullReferenceException("BGA LOCATION IS NOT SPECIFIED BUT BGA OPTION IS ENABLED");
+                }
 
                 string[] musicFolders = Directory.GetDirectories(musicLocation);
 
@@ -412,7 +390,10 @@ namespace MaichartConverter
                                 Directory.Move(trackPath, $"{trackPath}_Incomplete");
                                 Console.WriteLine("Due to incomplete asset, this track is marked as incomplete");
                             }
-                            else Console.WriteLine("This track is skipped");
+                            else
+                            {
+                                Console.WriteLine("This track is skipped");
+                            }
                         }
                         else
                         {

@@ -1,5 +1,4 @@
 using ManyConsole;
-using MaiLib;
 
 namespace MaichartConverter;
 
@@ -126,7 +125,10 @@ public class ReverseMa2FromSimaiDatabase : ConsoleCommand
                         Console.WriteLine("Copied track to: {0}", newPath);
                     }
                 }
-                else Console.WriteLine("{0} is not a chart folder", path);
+                else
+                {
+                    Console.WriteLine("{0} is not a chart folder", path);
+                }
 
                 Console.WriteLine();
             }

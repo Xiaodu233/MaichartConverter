@@ -1,5 +1,5 @@
-using ManyConsole;
 using MaiLib;
+using ManyConsole;
 
 namespace MaichartConverter
 {
@@ -83,8 +83,8 @@ namespace MaichartConverter
         {
             try
             {
-                Ma2Tokenizer tokenizer = new Ma2Tokenizer();
-                Ma2Parser parser = new Ma2Parser();
+                Ma2Tokenizer tokenizer = new();
+                Ma2Parser parser = new();
                 Chart candidate =
                     parser.ChartOfToken(tokenizer.Tokens(FileLocation ?? throw new FileNotFoundException()));
                 if (Rotate != null)
@@ -94,10 +94,7 @@ namespace MaichartConverter
                     candidate.RotateNotes(rotateMethod);
                 }
 
-                if (ShiftTick != null && ShiftTick != 0)
-                {
-                    candidate.ShiftByOffset((int)ShiftTick);
-                }
+                if (ShiftTick != null && ShiftTick != 0) candidate.ShiftByOffset((int)ShiftTick);
 
                 string result = "";
                 switch (TargetFormat)
@@ -106,28 +103,27 @@ namespace MaichartConverter
                     case "simai":
                     case "Simai":
                     case "SimaiFes":
-                        Simai resultChart = new Simai(candidate);
+                        Simai resultChart = new(candidate);
                         resultChart.Update();
                         result = resultChart.Compose();
                         if (Destination != null && !Destination.Equals(""))
                         {
                             string targetMaidataLocation = $"{Destination}/maidata.txt";
                             if (!Directory.Exists(Destination)) Directory.CreateDirectory(Destination);
-                            StreamWriter sw = new StreamWriter(targetMaidataLocation, false);
+                            StreamWriter sw = new(targetMaidataLocation, false);
                             {
                                 sw.WriteLine(result);
                             }
                             sw.Close();
                             if (File.Exists(targetMaidataLocation))
-                            {
                                 Console.WriteLine("Successfully compiled at: {0}", targetMaidataLocation);
-                            }
                             else
-                            {
                                 throw new FileNotFoundException("THE FILE IS NOT SUCCESSFULLY COMPILED.");
-                            }
                         }
-                        else Console.WriteLine(result);
+                        else
+                        {
+                            Console.WriteLine(result);
+                        }
 
                         break;
                     case "ma2":
@@ -147,21 +143,20 @@ namespace MaichartConverter
                         {
                             string targetMaidataLocation = $"{Destination}/result.ma2";
                             if (!Directory.Exists(Destination)) Directory.CreateDirectory(Destination);
-                            StreamWriter sw = new StreamWriter(targetMaidataLocation, false);
+                            StreamWriter sw = new(targetMaidataLocation, false);
                             {
                                 sw.WriteLine(result);
                             }
                             sw.Close();
                             if (File.Exists(targetMaidataLocation))
-                            {
                                 Console.WriteLine("Successfully compiled at: {0}", targetMaidataLocation);
-                            }
                             else
-                            {
                                 throw new FileNotFoundException("THE FILE IS NOT SUCCESSFULLY COMPILED.");
-                            }
                         }
-                        else Console.WriteLine(result);
+                        else
+                        {
+                            Console.WriteLine(result);
+                        }
 
                         break;
                 }
