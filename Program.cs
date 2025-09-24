@@ -1,10 +1,9 @@
 ﻿using System.Reflection;
-using System.Xml;
-using ManyConsole;
-using MaiLib;
-using System.Text.Json;
-using System.Text.Unicode;
 using System.Text.Encodings.Web;
+using System.Text.Json;
+using System.Xml;
+using MaiLib;
+using ManyConsole;
 
 namespace MaichartConverter
 {
@@ -49,9 +48,20 @@ namespace MaichartConverter
 
         public static List<string> ErrorMessage = [];
         public static Dictionary<string, string[]> CompiledTrackDetailSet = [];
+        public static List<TrackInformation> CompiledTrackInformationList = [];
 
-        public static XmlDocument BPMCollection = new XmlDocument();
-        public static XmlDocument DebugInformationTable = new XmlDocument();
+        public static XmlDocument BPMCollection = new();
+        public static XmlDocument DebugInformationTable = new();
+
+        public class TrackGroup
+        {
+            public string? name { get; set; }
+            public string[]? levelIds { get; set; }
+
+            protected internal TrackGroup()
+            {
+            }
+        }
 
         /// <summary>
         ///     Main method to process charts
@@ -111,10 +121,7 @@ namespace MaichartConverter
             try
             {
                 string result = intake;
-                while (result.Length < 6 && intake != null)
-                {
-                    result = "0" + result;
-                }
+                while (result.Length < 6 && intake != null) result = "0" + result;
 
                 return result;
             }
@@ -134,10 +141,7 @@ namespace MaichartConverter
             try
             {
                 string result = intake;
-                while (result.Length < 4 && intake != null)
-                {
-                    result = "0" + result;
-                }
+                while (result.Length < 4 && intake != null) result = "0" + result;
 
                 return result;
             }
@@ -155,23 +159,23 @@ namespace MaichartConverter
         {
             string result = "";
             result +=
-                (@"     _____         .__       .__                   __   _________                                   __                " +
-                 "\n");
+                @"     _____         .__       .__                   __   _________                                   __                " +
+                "\n";
             result +=
-                (@"    /     \ _____  |__| ____ |  |__ _____ ________/  |_ \_   ___ \  ____   _______  __ ____________/  |_  ___________ " +
-                 "\n");
+                @"    /     \ _____  |__| ____ |  |__ _____ ________/  |_ \_   ___ \  ____   _______  __ ____________/  |_  ___________ " +
+                "\n";
             result +=
-                (@"   /  \ /  \\__  \ |  |/ ___\|  |  \\__  \\_  __ \   __\/    \  \/ /  _ \ /    \  \/ // __ \_  __ \   __\/ __ \_  __ \" +
-                 "\n");
+                @"   /  \ /  \\__  \ |  |/ ___\|  |  \\__  \\_  __ \   __\/    \  \/ /  _ \ /    \  \/ // __ \_  __ \   __\/ __ \_  __ \" +
+                "\n";
             result +=
-                (@"  /    Y    \/ __ \|  \  \___|   Y  \/ __ \|  | \/|  |  \     \___(  <_> )   |  \   /\  ___/|  | \/|  | \  ___/|  | \/" +
-                 "\n");
+                @"  /    Y    \/ __ \|  \  \___|   Y  \/ __ \|  | \/|  |  \     \___(  <_> )   |  \   /\  ___/|  | \/|  | \  ___/|  | \/" +
+                "\n";
             result +=
-                (@"  \____|__  (____  /__|\___  >___|  (____  /__|   |__|   \______  /\____/|___|  /\_/  \___  >__|   |__|  \___  >__|   " +
-                 "\n");
+                @"  \____|__  (____  /__|\___  >___|  (____  /__|   |__|   \______  /\____/|___|  /\_/  \___  >__|   |__|  \___  >__|   " +
+                "\n";
             result +=
-                (@"          \/     \/        \/     \/     \/                     \/            \/          \/                 \/       " +
-                 "\n");
+                @"          \/     \/        \/     \/     \/                     \/            \/          \/                 \/       " +
+                "\n";
             result += "a GUtils component for rhythm games\n";
             result += "Rev. " + Assembly.GetExecutingAssembly().GetName().Version + " by Neskol\n";
             result += "Check https://github.com/Neskol/MaichartConverter for updates and instructions\n";
@@ -184,7 +188,7 @@ namespace MaichartConverter
         /// <param name="outputLocation">Place to log</param>
         public static void Log(string outputLocation)
         {
-            StreamWriter sw = new StreamWriter(outputLocation + "log.txt", false);
+            StreamWriter sw = new(outputLocation + "log.txt", false);
             int index = 1;
 
             Console.WriteLine("Total music compiled: {0}", NumberTotalTrackCompiled);
@@ -198,10 +202,7 @@ namespace MaichartConverter
             if (ErrorMessage.Count > 0)
             {
                 sw.WriteLine("Warnings:");
-                foreach (string error in ErrorMessage)
-                {
-                    sw.WriteLine(error);
-                }
+                foreach (string error in ErrorMessage) sw.WriteLine(error);
             }
 
             sw.Close();
@@ -215,14 +216,64 @@ namespace MaichartConverter
         /// <param name="outputLocation">Place to log</param>
         public static void LogTracksInJson(string outputLocation)
         {
-            StreamWriter sw = new StreamWriter(outputLocation + "index.json", false);
-            JsonSerializerOptions? JsonOptions = new JsonSerializerOptions
+            StreamWriter sw = new(outputLocation + "index.json", false);
+            JsonSerializerOptions? JsonOptions = new()
             {
                 Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
                 WriteIndented = true,
             };
             sw.WriteLine(JsonSerializer.Serialize(new SortedDictionary<int, string>(CompiledTracks), JsonOptions));
             sw.Close();
+        }
+
+        /// <summary>
+        ///     Compile a sorting collection file for output
+        /// </summary>
+        /// <param name="outputLocation">Place to save</param>
+        public static void CompileSortingCollection(string outputLocation)
+        {
+            JsonSerializerOptions? JsonOptions = new()
+            {
+                Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
+                WriteIndented = true,
+            };
+            string[] trackVersions =
+                CompiledTrackInformationList.Select(info => info.TrackVersion).Distinct().ToArray();
+            string[] trackGenres = CompiledTrackInformationList.Select(info => info.TrackGenre).Distinct().ToArray();
+            string[] trackSDDXPrefixes = CompiledTrackInformationList.Select(info => info.StandardDeluxePrefix)
+                .Distinct().ToArray();
+
+            List<TrackGroup> trackGroups = [];
+
+            trackGroups.AddRange(trackVersions.Select(trackVersion => new TrackGroup
+            {
+                name = trackVersion,
+                levelIds = (from track in CompiledTrackInformationList
+                    where track.TrackVersion.Equals(trackVersion)
+                    select track.TrackID).ToArray()
+            }));
+            trackGroups.AddRange(trackGenres.Select(trackGenre => new TrackGroup
+            {
+                name = trackGenre is "maimai" ? "Original" : trackGenre,
+                levelIds = (from track in CompiledTrackInformationList
+                    where track.TrackGenre.Equals(trackGenre)
+                    select track.TrackID).ToArray()
+            }));
+            trackGroups.AddRange(trackSDDXPrefixes.Select(prefix => new TrackGroup
+            {
+                name = $"{prefix} Chart",
+                levelIds = (from track in CompiledTrackInformationList
+                    where track.StandardDeluxePrefix.Equals(prefix)
+                    select track.TrackID).ToArray()
+            }));
+
+            foreach (TrackGroup group in trackGroups)
+            {
+                Directory.CreateDirectory($"{outputLocation}/{group.name}");
+                StreamWriter sw = new($"{outputLocation}/{group.name}/manifest.json", false);
+                sw.WriteLine(JsonSerializer.Serialize(group, JsonOptions));
+                sw.Close();
+            }
         }
 
         /// <summary>

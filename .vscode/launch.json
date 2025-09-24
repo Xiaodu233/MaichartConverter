@@ -10,24 +10,8 @@
         "request": "launch",
         "preLaunchTask": "build",
         // If you have changed target frameworks, make sure to update the program path.
-        "program": "${workspaceFolder}/bin/Debug/net8.0/MaichartConverter.dll",
+        "program": "${workspaceFolder}/bin/Debug/net9.0/MaichartConverter.dll",
         "args": [],
-        "cwd": "${workspaceFolder}",
-        // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
-        "console": "integratedTerminal",
-        "stopAtEntry": false
-      },
-      {
-        // Use IntelliSense to find out which attributes exist for C# debugging
-        // Use hover for the description of the existing attributes
-        // For further information visit https://github.com/OmniSharp/omnisharp-vscode/blob/master/debugger-launchjson.md
-        "name": ".NET Core Launch (Chart Only)",
-        "type": "coreclr",
-        "request": "launch",
-        "preLaunchTask": "build",
-        // If you have changed target frameworks, make sure to update the program path.
-        "program": "${workspaceFolder}/bin/Debug/net8.0/MaichartConverter.dll",
-        "args": "CompileDatabase -p \"/Users/Neskol/MaiAnalysis/A000/\" -o \"/Users/Neskol/MaiAnalysis/Output_ChartOnly/\"",
         "cwd": "${workspaceFolder}",
         // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
         "console": "integratedTerminal",
@@ -42,24 +26,8 @@
         "request": "launch",
         "preLaunchTask": "build",
         // If you have changed target frameworks, make sure to update the program path.
-        "program": "${workspaceFolder}/bin/Debug/net8.0/MaichartConverter.dll",
-        "args": "CompileDatabase -p \"/Users/Neskol/MaiAnalysis/A000/\" -o \"/Users/Neskol/MaiAnalysis/Maichart-Converts/\"",
-        "cwd": "${workspaceFolder}",
-        // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
-        "console": "integratedTerminal",
-        "stopAtEntry": false
-      },
-      {
-        // Use IntelliSense to find out which attributes exist for C# debugging
-        // Use hover for the description of the existing attributes
-        // For further information visit https://github.com/OmniSharp/omnisharp-vscode/blob/master/debugger-launchjson.md
-        "name": ".NET Core Launch (ChartAndBGMOnly)",
-        "type": "coreclr",
-        "request": "launch",
-        "preLaunchTask": "build",
-        // If you have changed target frameworks, make sure to update the program path.
-        "program": "${workspaceFolder}/bin/Debug/net8.0/MaichartConverter.dll",
-        "args": "CompileDatabase -p \"/Users/Neskol/MaiAnalysis/A000/\" -m \"/Users/Neskol/MaiAnalysis/Sound/\" -o \"/Users/Neskol/MaiAnalysis/Output_ChartAndBGMOnly/\"",
+        "program": "${workspaceFolder}/bin/Debug/net9.0/MaichartConverter.dll",
+        "args": "CompileDatabase -j -d -p \"/Users/Neskol/MaiAnalysis/A000/\" -o \"/Users/Neskol/source/repos/Maichart-Converts/\"",
         "cwd": "${workspaceFolder}",
         // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
         "console": "integratedTerminal",
@@ -74,7 +42,7 @@
         "request": "launch",
         "preLaunchTask": "build",
         // If you have changed target frameworks, make sure to update the program path.
-        "program": "${workspaceFolder}/bin/Debug/net8.0/MaichartConverter.dll",
+        "program": "${workspaceFolder}/bin/Debug/net9.0/MaichartConverter.dll",
         "args": "CompileDatabase -p \"/Users/Neskol/MaiAnalysis/A000/\" -c \"/Users/Neskol/MaiAnalysis/Image/Texture2D/\" -m \"/Users/Neskol/MaiAnalysis/Sound/\" -o \"/Users/Neskol/MaiAnalysis/Output_NoBGA/\"",
         "cwd": "${workspaceFolder}",
         // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
@@ -85,13 +53,13 @@
         // Use IntelliSense to find out which attributes exist for C# debugging
         // Use hover for the description of the existing attributes
         // For further information visit https://github.com/OmniSharp/omnisharp-vscode/blob/master/debugger-launchjson.md
-        "name": ".NET Core Launch (NoBGA By Cab)",
+        "name": ".NET Core Launch (NoBGA, External Source)",
         "type": "coreclr",
         "request": "launch",
         "preLaunchTask": "build",
         // If you have changed target frameworks, make sure to update the program path.
-        "program": "${workspaceFolder}/bin/Debug/net8.0/MaichartConverter.dll",
-        "args": "CompileDatabase -g \"2\" -p \"/Users/Neskol/MaiAnalysis/A000/\" -c \"/Users/Neskol/MaiAnalysis/Image/Texture2D/\" -m \"/Users/Neskol/MaiAnalysis/Sound/\" -o \"/Users/Neskol/MaiAnalysis/Output_NoBGA_By_Cab/\"",
+        "program": "${workspaceFolder}/bin/Debug/net9.0/MaichartConverter.dll",
+        "args": "CompileDatabase -p \"/Volumes/Data/MaiAnalysis-156/A000/\" -c \"/Volumes/Data/MaiAnalysis-156/Image/Texture2D/\" -m \"/Volumes/Data/MaiAnalysis-156/Sound/\" -o \"/Volumes/Data/MaiAnalysis-156/Output_NoBGA/\"",
         "cwd": "${workspaceFolder}",
         // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
         "console": "integratedTerminal",
@@ -106,7 +74,7 @@
         "request": "launch",
         "preLaunchTask": "build",
         // If you have changed target frameworks, make sure to update the program path.
-        "program": "${workspaceFolder}/bin/Debug/net8.0/MaichartConverter.dll",
+        "program": "${workspaceFolder}/bin/Debug/net9.0/MaichartConverter.dll",
         "args": "CompileDatabase -d -g \"2\" -p \"/Users/Neskol/MaiAnalysis/A000/\" -c \"/Users/Neskol/MaiAnalysis/Image/Texture2D/\" -m \"/Users/Neskol/MaiAnalysis/Sound/\" -o \"/Users/Neskol/MaiAnalysis/Output_NoBGA_By_Cab_Strict_Decimal/\"",
         "cwd": "${workspaceFolder}",
         // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
@@ -122,8 +90,8 @@
         "request": "launch",
         "preLaunchTask": "build",
         // If you have changed target frameworks, make sure to update the program path.
-        "program": "${workspaceFolder}/bin/Debug/net8.0/MaichartConverter.dll",
-        "args": "CompileDatabase -d -n -j -g \"6\" -p \"/Users/Neskol/MaiAnalysis/A000/\" -c \"/Users/Neskol/MaiAnalysis/Image/Texture2D/\" -m \"/Users/Neskol/MaiAnalysis/Sound/\" -o \"/Users/Neskol/MaiAnalysis/Output_MilkBot_NoBGA_JsonLog_StrictDecimal/\"",
+        "program": "${workspaceFolder}/bin/Debug/net9.0/MaichartConverter.dll",
+        "args": "CompileDatabase -d -n -z -j -g \"6\" -p \"/Users/Neskol/MaiAnalysis/A000/\" -c \"/Users/Neskol/MaiAnalysis/Image/Texture2D/\" -m \"/Users/Neskol/MaiAnalysis/Sound/\" -o \"/Users/Neskol/MaiAnalysis/Output_MilkBot_NoBGA_JsonLog_Zip_StrictDecimal/\"",
         "cwd": "${workspaceFolder}",
         // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
         "console": "integratedTerminal",
@@ -133,13 +101,13 @@
         // Use IntelliSense to find out which attributes exist for C# debugging
         // Use hover for the description of the existing attributes
         // For further information visit https://github.com/OmniSharp/omnisharp-vscode/blob/master/debugger-launchjson.md
-        "name": ".NET Core Launch (HEVC_BGA)",
+        "name": ".NET Core Launch (MilkBot HEVC BGA, No Subdirectory, Strict Decimal)",
         "type": "coreclr",
         "request": "launch",
         "preLaunchTask": "build",
         // If you have changed target frameworks, make sure to update the program path.
-        "program": "${workspaceFolder}/bin/Debug/net8.0/MaichartConverter.dll",
-        "args": "CompileDatabase -p \"/Users/Neskol/MaiAnalysis/A000/\" -c \"/Users/Neskol/MaiAnalysis/Image/Texture2D/\" -v \"/Users/Neskol/MaiAnalysis/DXBGA_HEVC/\" -m \"/Users/Neskol/MaiAnalysis/Sound/\" -o \"/Users/Neskol/MaiAnalysis/Output_HEVC/\"",
+        "program": "${workspaceFolder}/bin/Debug/net9.0/MaichartConverter.dll",
+        "args": "CompileDatabase -d -n -z -j -g \"6\" -p \"/Users/Neskol/MaiAnalysis/A000/\" -c \"/Users/Neskol/MaiAnalysis/Image/Texture2D/\" -v \"/Users/Neskol/MaiAnalysis/DXBGA_HEVC/\" -m \"/Users/Neskol/MaiAnalysis/Sound/\" -o \"/Users/Neskol/MaiAnalysis/Output_MilkBot_HEVC_JsonLog_Zip_StrictDecimal/\"",
         "cwd": "${workspaceFolder}",
         // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
         "console": "integratedTerminal",
@@ -149,13 +117,13 @@
         // Use IntelliSense to find out which attributes exist for C# debugging
         // Use hover for the description of the existing attributes
         // For further information visit https://github.com/OmniSharp/omnisharp-vscode/blob/master/debugger-launchjson.md
-        "name": ".NET Core Launch (HEVC_BGA, Strict Decimal)",
+        "name": ".NET Core Launch Mega Update (NoBGA, Strict Decimal)",
         "type": "coreclr",
         "request": "launch",
         "preLaunchTask": "build",
         // If you have changed target frameworks, make sure to update the program path.
-        "program": "${workspaceFolder}/bin/Debug/net8.0/MaichartConverter.dll",
-        "args": "CompileDatabase -d -p \"/Users/Neskol/MaiAnalysis/A000/\" -c \"/Users/Neskol/MaiAnalysis/Image/Texture2D/\" -v \"/Users/Neskol/MaiAnalysis/DXBGA_HEVC/\" -m \"/Users/Neskol/MaiAnalysis/Sound/\" -o \"/Users/Neskol/MaiAnalysis/Output_HEVC_Decimal/\"",
+        "program": "${workspaceFolder}/bin/Debug/net9.0/MaichartConverter.dll",
+        "args": "CompileDatabase -g 6 -i -j -d -p \"/Users/Neskol/MaiAnalysis/A000/\" -c \"/Users/Neskol/MaiAnalysis/Image/Texture2D/\" -m \"/Users/Neskol/MaiAnalysis/Sound/\" -o \"/Users/Neskol/MaiAnalysis/Output_NoBGA_MegaUpdate_StrictDecimal/\"",
         "cwd": "${workspaceFolder}",
         // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
         "console": "integratedTerminal",
@@ -165,77 +133,13 @@
         // Use IntelliSense to find out which attributes exist for C# debugging
         // Use hover for the description of the existing attributes
         // For further information visit https://github.com/OmniSharp/omnisharp-vscode/blob/master/debugger-launchjson.md
-        "name": ".NET Core Launch (HEVC_BGA By Cab)",
+        "name": ".NET Core Launch Mega Update (HEVC, Strict Decimal)",
         "type": "coreclr",
         "request": "launch",
         "preLaunchTask": "build",
         // If you have changed target frameworks, make sure to update the program path.
-        "program": "${workspaceFolder}/bin/Debug/net8.0/MaichartConverter.dll",
-        "args": "CompileDatabase -p \"/Users/Neskol/MaiAnalysis/A000/\" -c \"/Users/Neskol/MaiAnalysis/Image/Texture2D/\" -v \"/Users/Neskol/MaiAnalysis/DXBGA_HEVC/\" -m \"/Users/Neskol/MaiAnalysis/Sound/\" -o \"/Users/Neskol/MaiAnalysis/Output_HEVC_By_Cab/\" -g \"2\"",
-        "cwd": "${workspaceFolder}",
-        // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
-        "console": "integratedTerminal",
-        "stopAtEntry": false
-      },
-      {
-        // Use IntelliSense to find out which attributes exist for C# debugging
-        // Use hover for the description of the existing attributes
-        // For further information visit https://github.com/OmniSharp/omnisharp-vscode/blob/master/debugger-launchjson.md
-        "name": ".NET Core Launch (HEVC_BGA By Cab, Strict Decimal)",
-        "type": "coreclr",
-        "request": "launch",
-        "preLaunchTask": "build",
-        // If you have changed target frameworks, make sure to update the program path.
-        "program": "${workspaceFolder}/bin/Debug/net8.0/MaichartConverter.dll",
-        "args": "CompileDatabase -d -p \"/Users/Neskol/MaiAnalysis/A000/\" -c \"/Users/Neskol/MaiAnalysis/Image/Texture2D/\" -v \"/Users/Neskol/MaiAnalysis/DXBGA_HEVC/\" -m \"/Users/Neskol/MaiAnalysis/Sound/\" -o \"/Users/Neskol/MaiAnalysis/Output_HEVC_By_Cab_Decimal/\" -g \"2\"",
-        "cwd": "${workspaceFolder}",
-        // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
-        "console": "integratedTerminal",
-        "stopAtEntry": false
-      },
-      {
-        // Use IntelliSense to find out which attributes exist for C# debugging
-        // Use hover for the description of the existing attributes
-        // For further information visit https://github.com/OmniSharp/omnisharp-vscode/blob/master/debugger-launchjson.md
-        "name": ".NET Core Launch For Update (Chart Only)",
-        "type": "coreclr",
-        "request": "launch",
-        "preLaunchTask": "build",
-        // If you have changed target frameworks, make sure to update the program path.
-        "program": "${workspaceFolder}/bin/Debug/net8.0/MaichartConverter.dll",
-        "args": "CompileDatabase -p \"/Users/Neskol/MaiAnalysis/A000-145/\" -o \"/Users/Neskol/MaiAnalysis/Output_ChartOnly_FestivalPlus/\"",
-        "cwd": "${workspaceFolder}",
-        // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
-        "console": "integratedTerminal",
-        "stopAtEntry": false
-      },
-      {
-        // Use IntelliSense to find out which attributes exist for C# debugging
-        // Use hover for the description of the existing attributes
-        // For further information visit https://github.com/OmniSharp/omnisharp-vscode/blob/master/debugger-launchjson.md
-        "name": ".NET Core Launch For Update (NoBGA, Strict Decimal)",
-        "type": "coreclr",
-        "request": "launch",
-        "preLaunchTask": "build",
-        // If you have changed target frameworks, make sure to update the program path.
-        "program": "${workspaceFolder}/bin/Debug/net8.0/MaichartConverter.dll",
-        "args": "CompileDatabase -g 2 -p \"/Users/Neskol/MaiAnalysis-145/A000/\" -c \"/Users/Neskol/MaiAnalysis-145/Image/Texture2D/\" -m \"/Users/Neskol/MaiAnalysis-145/Sound/\" -o \"/Users/Neskol/MaiAnalysis-145/Output_NoBGA_Buddies_Plus/\" -d -i",
-        "cwd": "${workspaceFolder}",
-        // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
-        "console": "integratedTerminal",
-        "stopAtEntry": false
-      },
-      {
-        // Use IntelliSense to find out which attributes exist for C# debugging
-        // Use hover for the description of the existing attributes
-        // For further information visit https://github.com/OmniSharp/omnisharp-vscode/blob/master/debugger-launchjson.md
-        "name": ".NET Core Launch For Update (HEVC, By Cab, Strict Decimal)",
-        "type": "coreclr",
-        "request": "launch",
-        "preLaunchTask": "build",
-        // If you have changed target frameworks, make sure to update the program path.
-        "program": "${workspaceFolder}/bin/Debug/net8.0/MaichartConverter.dll",
-        "args": "CompileDatabase -g \"2\" -p \"/Users/Neskol/MaiAnalysis/A000-145/\" -c \"/Users/Neskol/MaiAnalysis/Image/Texture2D/\" -v \"/Users/Neskol/MaiAnalysis/DXBGA_HEVC/\" -m \"/Users/Neskol/MaiAnalysis/Sound/\" -o \"/Users/Neskol/MaiAnalysis/Output_HEVC_Buddies_Plus_ByCab_StrictDecimal/\" -d -i",
+        "program": "${workspaceFolder}/bin/Debug/net9.0/MaichartConverter.dll",
+        "args": "CompileDatabase -g 6 -i -j -d -p \"/Users/Neskol/MaiAnalysis/A000/\" -c \"/Users/Neskol/MaiAnalysis/Image/Texture2D/\" -v \"/Users/Neskol/MaiAnalysis/DXBGA_HEVC/\" -m \"/Users/Neskol/MaiAnalysis/Sound/\" -o \"/Users/Neskol/MaiAnalysis/Output_HEVC_MegaUpdate_StrictDecimal/\"",
         "cwd": "${workspaceFolder}",
         // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
         "console": "integratedTerminal",
@@ -250,7 +154,7 @@
         "request": "launch",
         "preLaunchTask": "build",
         // If you have changed target frameworks, make sure to update the program path.
-        "program": "${workspaceFolder}/bin/Debug/net8.0/MaichartConverter.dll",
+        "program": "${workspaceFolder}/bin/Debug/net9.0/MaichartConverter.dll",
         "args": "CompileMa2ID -p \"/Users/Neskol/MaiAnalysis/A000/\" -i \"11311\" -d \"3\"",
         "cwd": "${workspaceFolder}",
         // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
@@ -266,7 +170,7 @@
         "request": "launch",
         "preLaunchTask": "build",
         // If you have changed target frameworks, make sure to update the program path.
-        "program": "${workspaceFolder}/bin/Debug/net8.0/MaichartConverter.dll",
+        "program": "${workspaceFolder}/bin/Debug/net9.0/MaichartConverter.dll",
         "args": "CompileSimai -p \"/Users/Neskol/MaiAnalysis/Output_NoBGA/\" -i \"11311\" -d \"3\"",
         "cwd": "${workspaceFolder}",
         // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
@@ -282,7 +186,7 @@
         "request": "launch",
         "preLaunchTask": "build",
         // If you have changed target frameworks, make sure to update the program path.
-        "program": "${workspaceFolder}/bin/Debug/net8.0/MaichartConverter.dll",
+        "program": "${workspaceFolder}/bin/Debug/net9.0/MaichartConverter.dll",
         "args": "CompileUtageDatabase -p \"/Users/Neskol/MaiAnalysis/A000-Utage/\" -g \"6\" -c \"/Users/Neskol/MaiAnalysis/Image/Texture2D/\" -m \"/Users/Neskol/MaiAnalysis/Sound-Finale-MP3/\" -o \"/Users/Neskol/MaiAnalysis/Output_Utage_NoBGA/\"",
         "cwd": "${workspaceFolder}",
         // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
@@ -298,24 +202,8 @@
         "request": "launch",
         "preLaunchTask": "build",
         // If you have changed target frameworks, make sure to update the program path.
-        "program": "${workspaceFolder}/bin/Debug/net8.0/MaichartConverter.dll",
+        "program": "${workspaceFolder}/bin/Debug/net9.0/MaichartConverter.dll",
         "args": "CompileUtageDatabase -p \"/Users/Neskol/MaiAnalysis/A000-Utage/\" -g \"6\" -c \"/Users/Neskol/MaiAnalysis/Image/Texture2D/\" -v \"/Users/Neskol/MaiAnalysis/FinaleBGA_HEVC/\" -m \"/Users/Neskol/MaiAnalysis/Sound-Finale-MP3/\" -o \"/Users/Neskol/MaiAnalysis/Output_Utage_HEVC/\"",
-        "cwd": "${workspaceFolder}",
-        // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
-        "console": "integratedTerminal",
-        "stopAtEntry": false
-      },
-      {
-        // Use IntelliSense to find out which attributes exist for C# debugging
-        // Use hover for the description of the existing attributes
-        // For further information visit https://github.com/OmniSharp/omnisharp-vscode/blob/master/debugger-launchjson.md
-        "name": ".NET Core Launch (NoBGA, DX Utage Test)",
-        "type": "coreclr",
-        "request": "launch",
-        "preLaunchTask": "build",
-        // If you have changed target frameworks, make sure to update the program path.
-        "program": "${workspaceFolder}/bin/Debug/net8.0/MaichartConverter.dll",
-        "args": "CompileUtageDatabase -p \"/Users/Neskol/MaiAnalysis/A000-TestDXUtage/\" -c \"/Users/Neskol/MaiAnalysis/Image/Texture2D/\" -m \"/Users/Neskol/MaiAnalysis/Sound/\" -o \"/Users/Neskol/MaiAnalysis/Output_NoBGA_TestDXUtage/\"",
         "cwd": "${workspaceFolder}",
         // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
         "console": "integratedTerminal",
@@ -330,7 +218,7 @@
         "request": "launch",
         "preLaunchTask": "build",
         // If you have changed target frameworks, make sure to update the program path.
-        "program": "${workspaceFolder}/bin/Debug/net8.0/MaichartConverter.dll",
+        "program": "${workspaceFolder}/bin/Debug/net9.0/MaichartConverter.dll",
         "args": "ReverseMa2FromSimaiDatabase -p \"/Users/Neskol/MaiAnalysis/Output_NoBGA",
         "cwd": "${workspaceFolder}",
         // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
@@ -346,7 +234,7 @@
         "request": "launch",
         "preLaunchTask": "build",
         // If you have changed target frameworks, make sure to update the program path.
-        "program": "${workspaceFolder}/bin/Debug/net8.0/MaichartConverter.dll",
+        "program": "${workspaceFolder}/bin/Debug/net9.0/MaichartConverter.dll",
         "args": "ReverseMa2FromSimaiDatabase",
         "cwd": "${workspaceFolder}",
         // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console

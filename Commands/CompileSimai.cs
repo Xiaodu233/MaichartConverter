@@ -1,5 +1,5 @@
-using ManyConsole;
 using MaiLib;
+using ManyConsole;
 
 namespace MaichartConverter
 {
@@ -81,18 +81,14 @@ namespace MaichartConverter
         {
             try
             {
-                SimaiTokenizer tokenizer = new SimaiTokenizer();
+                SimaiTokenizer tokenizer = new();
                 tokenizer.UpdateFromPath(FileLocation ?? throw new FileNotFoundException());
-                SimaiParser parser = new SimaiParser();
+                SimaiParser parser = new();
                 string[] tokensCandidates;
                 if (Difficulty != null)
-                {
                     tokensCandidates = tokenizer.ChartCandidates[Difficulty];
-                }
                 else
-                {
                     tokensCandidates = tokenizer.ChartCandidates.Values.First();
-                }
 
                 Chart candidate = parser.ChartOfToken(tokensCandidates);
                 if (Rotate != null)
@@ -102,37 +98,33 @@ namespace MaichartConverter
                     candidate.RotateNotes(rotateMethod);
                 }
 
-                if (ShiftTick != null && ShiftTick != 0)
-                {
-                    candidate.ShiftByOffset((int)ShiftTick);
-                }
+                if (ShiftTick != null && ShiftTick != 0) candidate.ShiftByOffset((int)ShiftTick);
 
                 string result = "";
                 switch (TargetFormat)
                 {
                     case "Simai":
                     case "SimaiFes":
-                        Simai resultChart = new Simai(candidate);
+                        Simai resultChart = new(candidate);
                         result = resultChart.Compose();
                         if (Destination is not null && !Destination.Equals(""))
                         {
                             string targetMaidataLocation = $"{Destination}/maidata.txt";
                             if (!Directory.Exists(Destination)) Directory.CreateDirectory(Destination);
-                            StreamWriter sw = new StreamWriter(targetMaidataLocation, false);
+                            StreamWriter sw = new(targetMaidataLocation, false);
                             {
                                 sw.WriteLine(result);
                             }
                             sw.Close();
                             if (File.Exists(targetMaidataLocation))
-                            {
                                 Console.WriteLine("Successfully compiled at: {0}", targetMaidataLocation);
-                            }
                             else
-                            {
                                 throw new FileNotFoundException("THE FILE IS NOT SUCCESSFULLY COMPILED.");
-                            }
                         }
-                        else Console.WriteLine(result);
+                        else
+                        {
+                            Console.WriteLine(result);
+                        }
 
                         break;
                     case null:
@@ -154,21 +146,20 @@ namespace MaichartConverter
                         {
                             string targetMaidataLocation = $"{Destination}/result.ma2";
                             if (!Directory.Exists(Destination)) Directory.CreateDirectory(Destination);
-                            StreamWriter sw = new StreamWriter(targetMaidataLocation, false);
+                            StreamWriter sw = new(targetMaidataLocation, false);
                             {
                                 sw.WriteLine(result);
                             }
                             sw.Close();
                             if (File.Exists(targetMaidataLocation))
-                            {
                                 Console.WriteLine("Successfully compiled at: {0}", targetMaidataLocation);
-                            }
                             else
-                            {
                                 throw new FileNotFoundException("THE FILE IS NOT SUCCESSFULLY COMPILED.");
-                            }
                         }
-                        else Console.WriteLine(result);
+                        else
+                        {
+                            Console.WriteLine(result);
+                        }
 
                         break;
                     default:

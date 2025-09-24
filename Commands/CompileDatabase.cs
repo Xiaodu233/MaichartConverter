@@ -1,5 +1,6 @@
-using ManyConsole;
+using System.IO.Compression;
 using MaiLib;
+using ManyConsole;
 
 namespace MaichartConverter
 {
@@ -14,6 +15,8 @@ namespace MaichartConverter
         public bool IgnoreIncompleteAssets { get; set; }
         public bool MusicIDFolderName { get; set; }
         public bool LogTracksInJson { get; set; }
+        public bool ExportAsZipFile { get; set; }
+        public bool CompileCollectionFiles { get; set; }
 
         /// <summary>
         ///     Source file path
@@ -80,9 +83,7 @@ namespace MaichartConverter
         {
             CategorizeMethods = "";
             for (int i = 0; i < Program.TrackCategorizeMethodSet.Length; i++)
-            {
                 CategorizeMethods += $"[{i}]{Program.TrackCategorizeMethodSet[i]}\n";
-            }
 
             StrictDecimal = false;
             IsCommand("CompileDatabase", "Compile whole ma2 database to format assigned");
@@ -113,6 +114,9 @@ namespace MaichartConverter
                 _ => IgnoreIncompleteAssets = true);
             HasOption("n|number:", "Use musicID as folder name instead of sort name", _ => MusicIDFolderName = true);
             HasOption("j|json:", "Create a log file of compiled tracks in JSON", _ => LogTracksInJson = true);
+            HasOption("z|zip:", "Export Tracks as Zip Files", _ => ExportAsZipFile = true);
+            HasOption("k|collection", "Compile a soring file like manifest.json for collection indexing",
+                _ => CompileCollectionFiles = true);
         }
 
         /// <summary>
@@ -123,7 +127,7 @@ namespace MaichartConverter
         /// <exception cref="FileNotFoundException">Raised when the file is not found</exception>
         public override int Run(string[] remainingArguments)
         {
-            try
+            // try
             {
                 // Console.ReadKey();
                 bool exportBGA = true;
@@ -136,10 +140,7 @@ namespace MaichartConverter
                 //     Console.WriteLine("Step 1: Provide A000 Location");
                 //     a000Location = Console.ReadLine() ?? "";
                 // }
-                if (a000Location == null || a000Location.Equals(""))
-                {
-                    a000Location = Program.DefaultPaths[0];
-                }
+                if (a000Location is null or "") a000Location = Program.DefaultPaths[0];
 
                 string musicLocation = $"{a000Location}/music/";
                 string? audioLocation = BGMLocation;
@@ -149,46 +150,26 @@ namespace MaichartConverter
                 //     audioLocation = Console.ReadLine() ?? "";
                 // }
                 if (BGMLocation == null)
-                {
                     exportAudio = false;
-                }
-                else if (BGMLocation.Equals(""))
-                {
-                    audioLocation = Program.DefaultPaths[1];
-                }
+                else if (BGMLocation.Equals("")) audioLocation = Program.DefaultPaths[1];
 
                 string? imageLocation = ImageLocation;
                 if (ImageLocation == null)
-                {
                     exportImage = false;
-                }
-                else if (ImageLocation.Equals(""))
-                {
-                    imageLocation = Program.DefaultPaths[2];
-                }
+                else if (ImageLocation.Equals("")) imageLocation = Program.DefaultPaths[2];
 
                 string? bgaLocation = VideoLocation;
                 if (VideoLocation == null)
-                {
                     exportBGA = false;
-                }
-                else if (VideoLocation.Equals(""))
-                {
-                    bgaLocation = Program.DefaultPaths[3];
-                }
+                else if (VideoLocation.Equals("")) bgaLocation = Program.DefaultPaths[3];
 
                 string outputLocation = Destination ?? throw new NullReferenceException("Destination not specified");
-                if (outputLocation.Equals(""))
-                {
-                    outputLocation = Program.DefaultPaths[4];
-                }
+                if (outputLocation.Equals("")) outputLocation = Program.DefaultPaths[4];
 
                 try
                 {
                     if (0 <= CategorizeIndex && CategorizeIndex < Program.TrackCategorizeMethodSet.Length)
-                    {
                         Program.GlobalTrackCategorizeMethod = Program.TrackCategorizeMethodSet[CategorizeIndex];
-                    }
                 }
                 catch (Exception e)
                 {
@@ -207,23 +188,20 @@ namespace MaichartConverter
 
                     foreach (string bgaFile in bgaFiles)
                     {
-                        string musicID = Path.GetFileNameWithoutExtension(bgaFile).Substring(2, 4);
-                        if (!bgaMap.Keys.Contains(Program.CompensateZero(musicID)))
-                            bgaMap.Add(Program.CompensateZero(musicID), bgaFile);
-                        bgaMap.Add("01" + musicID, bgaFile);
-                        bgaMap.Add("10" + musicID, bgaFile);
-                        bgaMap.Add("11" + musicID, bgaFile);
-                        bgaMap.Add("12" + musicID, bgaFile);
+                        string musicIDCandidate = Path.GetFileNameWithoutExtension(bgaFile);
+                        string musicID = musicIDCandidate.Substring(2, 4);
+                        if (!bgaMap.Keys.Contains(musicID))
+                            bgaMap.Add(musicID, bgaFile);
                     }
                 }
                 else if (exportBGA)
+                {
                     throw new NullReferenceException("BGA LOCATION IS NOT SPECIFIED BUT BGA OPTION IS ENABLED");
+                }
 
                 string[] musicFolders = Directory.GetDirectories(musicLocation);
 
                 //Create output directory
-                DirectoryInfo output = new DirectoryInfo(outputLocation);
-
                 Program.NumberTotalTrackCompiled = 0;
                 Program.CompiledTracks = [];
                 //Iterate music folders
@@ -231,15 +209,15 @@ namespace MaichartConverter
                 {
                     Console.WriteLine("Iterating on folder {0}", track);
                     // Check the file status
-                    string[] files = Directory.GetFiles(track);
-                    if (files.Length <= 1)
+                    string[] files = Directory.GetFiles(track, "*.ma2");
+                    if (files.Length == 0)
                     {
-                        Console.WriteLine("Not enough files in the folder, skipping track: ", track);
-                        continue; 
+                        Console.WriteLine("This folder does not contain any charts, skipping {0}: ", track);
                     }
-                    if (File.Exists($"{track}/Music.xml"))
+                    else if (File.Exists($"{track}/Music.xml"))
                     {
                         TrackInformation trackInfo = new XmlInformation($"{track}/");
+                        Program.CompiledTrackInformationList.Add(trackInfo);
                         Console.WriteLine("There is Music.xml in {0}", track);
                         string shortID = Program.CompensateZero(trackInfo.TrackID).Substring(2);
                         Console.WriteLine($"Name: {trackInfo.TrackName}");
@@ -365,29 +343,8 @@ namespace MaichartConverter
                         }
                         // Console.WriteLine("Exported to: " + outputLocation + trackInfo.TrackGenre + sep + trackNameSubstitute + trackInfo.DXChart);
 
-                        bool bgaExists = bgaMap.TryGetValue(Program.CompensateZero(trackInfo.TrackID),
+                        bool bgaExists = bgaMap.TryGetValue(shortID,
                             out string? originalBGALocation);
-                        if (!bgaExists)
-                        {
-                            // Compensate on DX Utage
-                            if (trackInfo.TrackID.Length == 6)
-                            {
-                                bgaExists = bgaMap.TryGetValue(trackInfo.TrackID.Substring(2, 4),
-                                    out originalBGALocation);
-                            }
-                            // Compensate on DX Standard
-                            else if (trackInfo.TrackID.Length == 5)
-                            {
-                                bgaExists = bgaMap.TryGetValue(trackInfo.TrackID.Substring(1, 4),
-                                    out originalBGALocation);
-                            }
-                            // Compensate on Standard
-                            else if (trackInfo.TrackID.Length == 3)
-                            {
-                                bgaExists = bgaMap.TryGetValue(Program.CompensateShortZero(trackInfo.TrackID),
-                                    out originalBGALocation);
-                            }
-                        }
 
                         if (exportBGA && !bgaExists)
                         {
@@ -395,7 +352,8 @@ namespace MaichartConverter
                             Console.WriteLine(trackInfo.TrackID);
                             Console.WriteLine(Program.CompensateZero(trackInfo.TrackID));
                             Console.WriteLine(originalBGALocation);
-                            Program.ErrorMessage.Add($"BGA file not found: {trackInfo.TrackName} at {originalBGALocation}");
+                            Program.ErrorMessage.Add(
+                                $"BGA file not found: {trackInfo.TrackName} with ID {trackInfo.TrackID}");
                             trackAssetIncomplete = true;
                             if (!IgnoreIncompleteAssets) Console.ReadKey();
                         }
@@ -432,7 +390,10 @@ namespace MaichartConverter
                                 Directory.Move(trackPath, $"{trackPath}_Incomplete");
                                 Console.WriteLine("Due to incomplete asset, this track is marked as incomplete");
                             }
-                            else Console.WriteLine("This track is skipped");
+                            else
+                            {
+                                Console.WriteLine("This track is skipped");
+                            }
                         }
                         else
                         {
@@ -450,6 +411,13 @@ namespace MaichartConverter
                                 compiledTrackDetail);
                             // Program.CompiledChart.Add(trackInfo.TrackName + compiler.GenerateOneLineSummary());
                             Console.WriteLine("Exported to: {0}", trackPath);
+                            if (ExportAsZipFile)
+                            {
+                                Console.WriteLine("Zip file compressing to: {0}.zip", trackPath);
+                                ZipFile.CreateFromDirectory(trackPath, $"{trackPath}.zip");
+                                Console.WriteLine("Compressed: {0}.zip, removing original folder", trackPath);
+                                Directory.Delete(trackPath, true);
+                            }
                         }
 
                         Console.WriteLine();
@@ -470,16 +438,18 @@ namespace MaichartConverter
 
                 Program.Log(outputLocation);
                 if (LogTracksInJson) Program.LogTracksInJson(outputLocation);
+                if (CompileCollectionFiles) Program.CompileSortingCollection($"{outputLocation}/collections");
                 return Success;
             }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Program cannot proceed because of following error returned: \n{0}", ex.GetType());
-                Console.Error.WriteLine(ex.Message);
-                Console.Error.WriteLine(ex.StackTrace);
-                Console.ReadKey();
-                return Failed;
-            }
+            // catch (Exception ex)
+            // {
+            //     Console.WriteLine("Program cannot proceed because of following error returned: \n{0}", ex.GetType());
+            //     Console.Error.WriteLine(ex.Message);
+            //     Console.Error.WriteLine(ex.StackTrace);
+            //     Console.ReadKey();
+            //     // throw ex; // For debug use
+            //     return Failed;
+            // }
         }
     }
 }
