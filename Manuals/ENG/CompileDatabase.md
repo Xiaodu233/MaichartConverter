@@ -32,6 +32,7 @@
 - `-n | --number`: Use `musicID` as folder name instead of sort name.
 - `-j | --json`: Create a log file of compiled tracks in JSON (`index.json`).
 - `-z | --zip`: Zip each track folder and delete original folder.
+- `-k | --collection`: Generates `manifest.json` for in game grouping. Will generate `collections` folder in output folder.
 
 ### Depreciated/Under development params:
 

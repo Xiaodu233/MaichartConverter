@@ -10,11 +10,11 @@
     },
     "For MilkBot with HEVC, Strict Decimal": {
       "commandName": "Project",
-      "commandLineArgs": "CompileDatabase -k -g \"6\" -i -d -n -j -p \"/Users/Neskol/MaiAnalysis/A000/\" -c \"/Users/Neskol/MaiAnalysis/Image/Texture2D/\" -m \"/Users/Neskol/MaiAnalysis/Sound/\" -v \"/Users/Neskol/MaiAnalysis/DXBGA_HEVC/\" -o \"/Users/Neskol/MaiAnalysis/Output_MilkBot_StrictDecimal_Zip_Manifest_JsonLog_HEVC/\""
+      "commandLineArgs": "CompileDatabase -k -z -g \"6\" -i -d -n -j -p \"/Users/Neskol/MaiAnalysis/A000/\" -c \"/Users/Neskol/MaiAnalysis/Image/Texture2D/\" -m \"/Users/Neskol/MaiAnalysis/Sound/\" -v \"/Users/Neskol/MaiAnalysis/DXBGA_HEVC/\" -o \"/Users/Neskol/MaiAnalysis/Output_MilkBot_StrictDecimal_Zip_Manifest_JsonLog_HEVC/\""
     },
     "For MilkBot NoBGA, Strict Decimal": {
       "commandName": "Project",
-      "commandLineArgs": "CompileDatabase -k -g \"6\" -i -d -n -j -p \"/Users/Neskol/MaiAnalysis/A000/\" -c \"/Users/Neskol/MaiAnalysis/Image/Texture2D/\" -m \"/Users/Neskol/MaiAnalysis/Sound/\" -o \"/Users/Neskol/MaiAnalysis/Output_MilkBot_StrictDecimal_Zip_Manifest_JsonLog_NoBGA/\""
+      "commandLineArgs": "CompileDatabase -k -z -g \"6\" -i -d -n -j -p \"/Users/Neskol/MaiAnalysis/A000/\" -c \"/Users/Neskol/MaiAnalysis/Image/Texture2D/\" -m \"/Users/Neskol/MaiAnalysis/Sound/\" -o \"/Users/Neskol/MaiAnalysis/Output_MilkBot_StrictDecimal_Zip_Manifest_JsonLog_NoBGA/\""
     },
     "NoBGA Run": {
       "commandName": "Project",

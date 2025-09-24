@@ -253,7 +253,7 @@ namespace MaichartConverter
             };
             string[] trackVersions = CompiledTrackInformationList.Select(info => info.TrackVersion).Distinct().ToArray();
             string[] trackGenres = CompiledTrackInformationList.Select(info => info.TrackGenre).Distinct().ToArray();
-            string[] trackSDDXSuffixes = CompiledTrackInformationList.Select(info => info.StandardDeluxePrefix).Distinct().ToArray();
+            string[] trackSDDXPrefixes = CompiledTrackInformationList.Select(info => info.StandardDeluxePrefix).Distinct().ToArray();
 
             List<TrackGroup> trackGroups = [];
 
@@ -266,23 +266,23 @@ namespace MaichartConverter
             }));
             trackGroups.AddRange(trackGenres.Select(trackGenre => new TrackGroup
             {
-                name = trackGenre,
+                name = trackGenre is "maimai" ? "Original" : trackGenre,
                 levelIds = (from track in CompiledTrackInformationList
                     where track.TrackGenre.Equals(trackGenre)
                     select track.TrackID).ToArray()
             }));
-            trackGroups.AddRange(trackSDDXSuffixes.Select(suffix => new TrackGroup
+            trackGroups.AddRange(trackSDDXPrefixes.Select(prefix => new TrackGroup
             {
-                name = $"{suffix} Chart",
+                name = $"{prefix} Chart",
                 levelIds = (from track in CompiledTrackInformationList
-                    where track.StandardDeluxeSuffix.Equals(suffix)
+                    where track.StandardDeluxePrefix.Equals(prefix)
                     select track.TrackID).ToArray()
             }));
 
             foreach (TrackGroup group in trackGroups)
             {
                 Directory.CreateDirectory($"{outputLocation}/{group.name}");
-                StreamWriter sw = new($"{outputLocation}/{group.name}/anifest.json", false);
+                StreamWriter sw = new($"{outputLocation}/{group.name}/manifest.json", false);
                 sw.WriteLine(JsonSerializer.Serialize(group, JsonOptions));
                 sw.Close();
             }

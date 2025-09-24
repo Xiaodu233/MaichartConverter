@@ -31,7 +31,7 @@
 - `-n | --number`: 使用 `musicID` 作为文件夹名。
 - `-j | --json`: 额外创建一个JSON格式的日志文件(`index.json`)。
 - `-z | --zip`: 压缩每个转换后的文件夹，并在压缩完成后删除对应的文件夹。
-
+- `-k | --collection`: 选择导出manifest.json，会在输出文件夹生成对应的collections文件夹，可以启用收藏夹功能
 
 ### 弃用/开发中参数:
 
