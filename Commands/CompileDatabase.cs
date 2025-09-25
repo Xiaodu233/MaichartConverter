@@ -251,8 +251,30 @@ namespace MaichartConverter
                         string trackPath = MusicIDFolderName
                             ? $"{defaultCategorizedPath}/{trackNameSubstitute}"
                             : $"{defaultCategorizedPath}/{trackNameSubstitute}{trackInfo.DXChartTrackPathSuffix}";
-                        string originalMusicLocation = $"{audioLocation}/music00{shortID}.mp3";
-                        string originalImageLocation = $"{imageLocation}/UI_Jacket_00{shortID}.png";
+                        string? originalMusicLocation = null;
+                        string baseMusicPath = $"{audioLocation}/music00{shortID}";
+                        string[] audioExtensions = { ".ogg", ".mp3" };
+                        foreach (var ext in audioExtensions)
+                        {
+                            string fullMusicPath = baseMusicPath + ext;
+                            if (File.Exists(fullMusicPath))
+                            {
+                                originalMusicLocation = fullMusicPath;
+                                break;
+                            }
+                        }
+                        string? originalImageLocation = null;
+                        string baseImagePath = $"{imageLocation}/UI_Jacket_00{shortID}";
+                        string[] imageExtensions = { ".png", ".jpg" };
+                        foreach (var ext in imageExtensions)
+                        {
+                            string fullImagePath = baseImagePath + ext;
+                            if (File.Exists(fullImagePath))
+                            {
+                                originalImageLocation = fullImagePath;
+                                break;
+                            }
+                        }
                         bool trackAssetIncomplete = false;
 
                         if (!Directory.Exists(trackPath))
@@ -284,61 +306,69 @@ namespace MaichartConverter
 
                         if (exportAudio)
                         {
-                            string newMusicLocation = $"{trackPath}/track.mp3";
-                            if (!File.Exists(originalMusicLocation))
+                            if (string.IsNullOrEmpty(originalMusicLocation))
                             {
-                                Console.WriteLine("MUSIC FILE NOT FOUND AT: {0}", originalMusicLocation);
+                                Console.WriteLine("MUSIC FILE NOT FOUND AT: {0}", baseMusicPath);
                                 Program.ErrorMessage.Add(
-                                    $"Music not found: {trackInfo.TrackName} at {originalMusicLocation}");
+                                    $"Music not found: {trackInfo.TrackName} with ID {trackInfo.TrackID}");
                                 trackAssetIncomplete = true;
                                 if (!IgnoreIncompleteAssets) Console.ReadLine();
                             }
-                            else if (!File.Exists(newMusicLocation))
-                            {
-                                File.Copy(originalMusicLocation, newMusicLocation);
-                                Console.WriteLine("Exported music to: {0}", newMusicLocation);
-                            }
                             else
                             {
-                                Console.WriteLine("Audio already found in: {0}", newMusicLocation);
-                            }
+                                string audioExtension = Path.GetExtension(originalMusicLocation);
+                                string newMusicLocation = $"{trackPath}/track{audioExtension}";
+                                if (!File.Exists(newMusicLocation))
+                                {
+                                    File.Copy(originalMusicLocation, newMusicLocation);
+                                    Console.WriteLine("Music exported to: {0}", newMusicLocation);
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Audio already found in: {0}", newMusicLocation);
+                                }
 
-                            //See if image is existing
-                            if (exportAudio && !IgnoreIncompleteAssets && !File.Exists(newMusicLocation))
-                            {
-                                Console.WriteLine("Audio exists at " + originalMusicLocation + ": " +
-                                                  File.Exists(originalMusicLocation));
-                                throw new FileNotFoundException("MUSIC NOT FOUND IN:" + newMusicLocation);
+                                //See if audio exists
+                                if (exportAudio && !IgnoreIncompleteAssets && !File.Exists(newMusicLocation))
+                                {
+                                    Console.WriteLine("Audio exists at " + originalMusicLocation + ": " +
+                                                        File.Exists(originalMusicLocation));
+                                    throw new FileNotFoundException("MUSIC NOT FOUND IN:" + newMusicLocation);
+                                }
                             }
                         }
 
                         if (exportImage)
                         {
-                            string newImageLocation = $"{trackPath}/bg.png";
-                            if (!File.Exists(originalImageLocation))
+                            if (string.IsNullOrEmpty(originalImageLocation))
                             {
-                                Console.WriteLine("IMAGE FILE NOT FOUND AT: {0}", originalImageLocation);
+                                Console.WriteLine("IMAGE FILE NOT FOUND AT: {0}", baseImagePath);
                                 Program.ErrorMessage.Add(
-                                    $"Image not found: {trackInfo.TrackName} at {originalImageLocation}");
+                                    $"Image not found: {trackInfo.TrackName} with ID {trackInfo.TrackID}");
                                 trackAssetIncomplete = true;
                                 if (!IgnoreIncompleteAssets) Console.ReadLine();
                             }
-                            else if (!File.Exists(newImageLocation))
-                            {
-                                File.Copy(originalImageLocation, newImageLocation);
-                                Console.WriteLine("Image exported to: {0}", newImageLocation);
-                            }
                             else
                             {
-                                Console.WriteLine("Image already found in: {0}", newImageLocation);
-                            }
+                                string imageExtension = Path.GetExtension(originalImageLocation);
+                                string newImageLocation = $"{trackPath}/track{imageExtension}";
+                                if (!File.Exists(newImageLocation))
+                                {
+                                    File.Copy(originalImageLocation, newImageLocation);
+                                    Console.WriteLine("Image exported to: {0}", newImageLocation);
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Image already found in: {0}", newImageLocation);
+                                }
 
-                            //Check if Image exists
-                            if (exportImage && !IgnoreIncompleteAssets && !File.Exists(newImageLocation))
-                            {
-                                Console.WriteLine("Image exists at {0}: {1}", originalImageLocation,
-                                    File.Exists(originalImageLocation));
-                                throw new FileNotFoundException("IMAGE NOT FOUND IN: " + newImageLocation);
+                                //Check if image exists
+                                if (exportImage && !IgnoreIncompleteAssets && !File.Exists(newImageLocation))
+                                {
+                                    Console.WriteLine("Image exists at " + originalImageLocation + ": " +
+                                                        File.Exists(originalImageLocation));
+                                    throw new FileNotFoundException("IMAGE NOT FOUND IN:" + newImageLocation);
+                                }
                             }
                         }
                         // Console.WriteLine("Exported to: " + outputLocation + trackInfo.TrackGenre + sep + trackNameSubstitute + trackInfo.DXChart);
@@ -348,12 +378,12 @@ namespace MaichartConverter
 
                         if (exportBGA && !bgaExists)
                         {
-                            Console.WriteLine("BGA NOT FOUND");
+                            Console.WriteLine("BGA FILE NOT FOUND AT: {0}", originalBGALocation);
                             Console.WriteLine(trackInfo.TrackID);
                             Console.WriteLine(Program.CompensateZero(trackInfo.TrackID));
                             Console.WriteLine(originalBGALocation);
                             Program.ErrorMessage.Add(
-                                $"BGA file not found: {trackInfo.TrackName} with ID {trackInfo.TrackID}");
+                                $"BGA not found: {trackInfo.TrackName} with ID {trackInfo.TrackID}");
                             trackAssetIncomplete = true;
                             if (!IgnoreIncompleteAssets) Console.ReadKey();
                         }
@@ -363,7 +393,7 @@ namespace MaichartConverter
                             string? newBGALocation = $"{trackPath}/pv.mp4";
                             if (bgaExists && !File.Exists(newBGALocation))
                             {
-                                Console.WriteLine("A BGA file was found in {0}", originalBGALocation);
+                                Console.WriteLine("A BGA was found in {0}", originalBGALocation);
                                 string originalBGALocationCandidate =
                                     originalBGALocation ?? throw new NullReferenceException();
                                 File.Copy(originalBGALocationCandidate, newBGALocation);
@@ -383,7 +413,7 @@ namespace MaichartConverter
                             }
                         }
 
-                        if (trackAssetIncomplete)
+                        if (trackAssetIncomplete && !IgnoreIncompleteAssets)
                         {
                             if (Directory.Exists(trackPath))
                             {
